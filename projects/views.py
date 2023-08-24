@@ -21,7 +21,7 @@ def create_project_form(request):
 
 @login_required(login_url='login')
 def create_project(request):
-    creator = User.objects.get(id=request.POST.get('creator', 1))
+    creator = User.objects.get(id=request.user.id)
     members = User.objects.get(id=request.POST.get('members', 1))
     project = Project(
         name=request.POST['name'],
