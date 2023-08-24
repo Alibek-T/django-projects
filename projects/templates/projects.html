@@ -1,0 +1,54 @@
+{%extends 'layout/layout.html'%}
+
+{% block content %}
+
+<div>
+    <h3>Hello, {{ request.user }}</h3>
+    <a href="add-form"><button>+ Add project</button></a>
+    <a href="{% url 'logout' %}"><button>Logout</button></a>
+</div>
+<div>
+    <h1>Projects</h1>
+</div>
+<table>
+    <tr>
+        <th>All projects</th>
+        <th>Shared with me</th>
+        <th>Created by me</th>
+    </tr>
+
+    {% for project in projects %}
+
+        <tr>
+            <td>Project name: {{ project.name }}<br />Creator: {{ project.creator }}<br />Members: {{ project.members }}<br /><a href="{% url 'edit' project.id %}"><button>Edit</button></a>
+                <form action="{% url 'delete' project.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="DELETE">
+                </form>
+            </td>
+            <td>
+                {% if project.members == request.user %}
+                Project name: {{ project.name }}<br />Creator: {{ project.creator }}<br />Members: {{ project.members }}<br /><a href="{% url 'edit' project.id %}"><button>Edit</button></a>
+                <form action="{% url 'delete' project.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="DELETE">
+                </form>
+                {% endif %}
+            </td>
+            <td>
+                {% if project.creator == request.user %}
+                Project name: {{ project.name }}<br />Creator: {{ project.creator }}<br />Members: {{ project.members }}<br /><a href="{% url 'edit' project.id %}"><button>Edit</button></a>
+                <form action="{% url 'delete' project.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="DELETE">
+                </form>
+                {% endif %}
+            </td>
+
+        </tr>
+
+    {% endfor %}
+
+</table>
+
+{% endblock %}

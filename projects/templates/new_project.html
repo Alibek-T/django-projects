@@ -1,0 +1,18 @@
+{%extends 'layout/layout.html'%}
+
+{% block content %}
+
+<div>
+    <a href="{% url 'projects' %}"><button>Projects</button></a>
+    <a href="{% url 'logout' %}"><button>Logout</button></a>
+</div>
+<div>
+    <h1>New project</h1>
+</div>
+<form action=" {% url 'add' %} " method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Create project">
+</form>
+
+{% endblock %}
